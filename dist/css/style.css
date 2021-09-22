@@ -185,7 +185,7 @@
 	.descriptions p {
 		font-size:17px;
 		margin-top:15px;
-		color:#bc9010;
+		color:#916f06;
 		line-height:20px;
 
 	}
@@ -200,30 +200,32 @@
 	.personal-info {
 		float:left;
 		margin-top:30px;
-		width: 29vw;
+		min-width: 29vw;
 		min-height:230px;
-		margin-left: 2vw;
+		margin-left: 0;
 		/*background:url(../images/personal-info-sep.png) no-repeat left top;*/
 		padding:20px 0 0 20px;
 	}
 	.personal-info li {
-		font-size:17px;
+		font-size:18px;
 		margin-bottom:10px;
 		overflow: hidden;
 	}
 	.personal-info li label {
-		color:#a87f09;
+		color: #916f06;
 		background-color:#f4c024;
 		float:left;
 		padding:4px 7px;
 		border-radius: 3px;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
+		width: 10vw;
+
 	}
 	.personal-info li span {
 		float:right;
 		width:170px;
-		color:#a87f09;
+		color: #8d5523;
 	}
 	/*-------------------------------------------------------*/
 		/* Menu */
@@ -413,6 +415,8 @@
 		width:280px;
 		margin-right:10px;
 	}
+
+
 	/*-------------------------------------------------------*/
 		/* Resume */
 	/*-------------------------------------------------------*/
@@ -598,16 +602,14 @@
 	.personal-info {
 		margin-top:0;
 		display:block;
-		width:280px;
+		min-width:280px;
 		background:none;
 		border-top:1px solid #fdc62a;
 		margin-left:10px;
 		min-height:220px;
 		padding-left:0;
 	}
-	.personal-info li {
-		font-size:13px;
-	}
+
 	/*-------------------------------------------------------*/
 		/* Menu */
 	/*-------------------------------------------------------*/
