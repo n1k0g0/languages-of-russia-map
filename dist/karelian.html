@@ -18,7 +18,8 @@
     <script type="text/javascript" src="js/jquery.fancybox-1.3.4.pack.js"></script>
     <script type="text/javascript" src="js/jquery.isotope.min.js"></script>
     <script type="text/javascript" src="js/custom.js"></script>
-    
+    <script type="text/javascript" src="karelian.json"></script>
+
 </head>
     <body>
         <!-- Container -->
@@ -28,7 +29,7 @@
 			<div class="top"> 
             	<!-- Logo -->
             	<div id="logo">
-                	<h2>Карельский язык</h2>
+                	<h2 id="language-name1">Карельский язык</h2>
                 </div>
                 <!-- /Logo -->
 
@@ -42,14 +43,15 @@
                 <div id="profile"> 
                  	<!-- About section -->
                 	<div class="about">
-                        <h1>Карельский язык</h1>
+                        <h1 id="language-name2"></h1>
+
                         <h3>язык коренного малочисленного народа РФ</h3>
                     </div>
                     <!-- /About section -->
                      <div class = "descriptions">
-                         <p><b>Семья и ветвь:</b> финно-угорская ветвь < уральская семья.</p>
-                         <p><b>Диалекты / диалектные группы:</b> собственно карельский, людиковский и ливвиковский (или олонецкий). Различия между всеми диалектами настолько велики, что препятствуют взаимопониманию их носителей.</p>
-                         <p><b>Регион традиционного распространения:</b> карелы проживают главным образом на западе Республики Карелия, а также в Тверской, Ленинградской, Мурманской, Московской, Архангельской, Вологодской и некоторых других областях России и в Финляндии. Живут также на Украине, в Белоруссии и Эстонии.</p>
+                         <b>Семья и ветвь:</b><p>финно-угорская ветвь < уральская семья.</p>
+                         <b>Диалекты / диалектные группы:</b><p> собственно карельский, людиковский и ливвиковский (или олонецкий). Различия между всеми диалектами настолько велики, что препятствуют взаимопониманию их носителей.</p>
+                         <b>Регион традиционного распространения:</b><p> карелы проживают главным образом на западе Республики Карелия, а также в Тверской, Ленинградской, Мурманской, Московской, Архангельской, Вологодской и некоторых других областях России и в Финляндии. Живут также на Украине, в Белоруссии и Эстонии.</p>
                          <p></p>
                          <p></p>
                      </div>
@@ -64,7 +66,37 @@
                     </ul>
                     <!-- /Personal info section -->
                 </div>        
-                <!-- /Profile --> 
+                <!-- /Profile -->
+
+
+
+
+
+                <script type="text/javascript">
+                    function readTextFile(file, callback) {
+                        var rawFile = new XMLHttpRequest();
+                        rawFile.overrideMimeType("application/json");
+                        rawFile.open("GET", file, true);
+                        rawFile.onreadystatechange = function() {
+                            if (rawFile.readyState === 4 || rawFile.status == "200") {
+                                callback(rawFile.responseText);
+                            }
+                        }
+                        rawFile.send(null);
+                    }
+
+                    readTextFile('./karelian.json', function(text){
+                        var data = JSON.parse(text);
+                        console.log(data);
+                        document.getElementById("language-name2").innerHTML = data.name;
+                    });
+                </script>
+
+
+
+
+
+
 
                 <!-- Menu -->
                 <div class="menu">
@@ -73,8 +105,20 @@
                     	<li><a href="#resume" class="tab-profile">Сферы использования</a></li>
                     </ul>
                 </div>
-                <!-- /Menu --> 
-                
+                <!-- /Menu -->
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <!-- Resume -->
                 <div id="resume">
                 	 <div class="timeline-section">
@@ -125,7 +169,7 @@
                                 <div class="timelineUnit">
                                     <h4>Законодательство, судопроизводство, делопроизводство</h4>
 									<h5>Энциклопедия "Язык и Общество" (с.207)<span class="timelineDate">2016</span></h5>
-									<h5><a href="http://docs.cntd.ru/document/919316706">Закон республики Карелия "О государственной поддержке карельского, вепсского и финского языков в Республике Карелия"</a><span class="timelineDate">19.04.2004</span></h5>
+									<h5><a href="http://docs.cntd.ru/document/919316706">Закон республики Карелия "О государственной поддержке карельского, вепсского и финского языков в Республике Карелия"</a><span class="timelineDate">2004</span></h5>
 									<h5><a href="http://www.indigenous.ru/dec/dec_kar.pdf">Ristikanzan oigevuksien yhtehine deklaratsii "Hyväksytty da sanottu julgi Ylehizen Assamblein rezol’utsiel"</a><span class="timelineDate">2009</span></h5>
                                     <p>Карельский язык может использоваться органами местного самоуправления, также в Карелии допускается возможность ведения официального делопроизводства, а также публикации законов и других нормативно-правовых актов на карельском. На самом деле, это право не реализуется, используется только русский язык. На карельском языке были опубликованы Проект закона Республи­ки Карелия «О языках в Республике Карелия», Поясни­тельная записка к проекту закона. На карельский переведена Всеобщая декларация прав человека.</p>
 								</div>
@@ -146,7 +190,7 @@
                             <li>
                                 <div class="timelineUnit">
                                     <h4>Документы, касающиеся языковой политики в регионе</h4>
-									<h5><a href="http://docs.cntd.ru/document/919316706">Закон республики Карелия "О государственной поддержке карельского, вепсского и финского языков в Республике Карелия"</a><span class="timelineDate">19.04.2004</span></h5>
+									<h5><a href="http://docs.cntd.ru/document/919316706">Закон республики Карелия "О государственной поддержке карельского, вепсского и финского языков в Республике Карелия"</a><span class="timelineDate">2004</span></h5>
                                     <p>Пункт 2 статьи 11 Конституции Республики Карелия: "В Республике Карелия народам, проживающим на ее территории, гарантируется право на сохранение родного языка, создание условий для его изучения и развития".</p>
                                 </div>
                             </li>

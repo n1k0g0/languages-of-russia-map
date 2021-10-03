@@ -24,36 +24,25 @@
     <script type="text/javascript" src="../dist/jquery.vmap.js"></script>
     <script type="text/javascript" src="../dist/maps/jquery.vmap.russia.js" charset="utf-8"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
     <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
 
-	function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Владение языками', 'Количество человек'],
-          ['русский', 1240177],
-          ['карельский', 38107],
-		  ['вепсский', 2357],
-          ['финский', 29179],
-		  ['украинский',14892],
-		  ['белорусский', 8054],
-		  ['другие языки', 127721],
-		  ]);
-
-        var options = {
-          title: 'Владение языками в Республике Карелия',
-		  slices: {  2: {offset: 0.3},
-          },
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-        chart.draw(data, options);
+      function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function() {
+          if (rawFile.readyState === 4 || rawFile.status == "200") {
+            callback(rawFile.responseText);
+          }
+        }
+        rawFile.send(null);
       }
-    </script>
 
-    <script>
+
+
       jQuery(document).ready(function () {
         jQuery('#vmap').vectorMap({
           map: 'russia_en',
@@ -68,7 +57,6 @@
           normalizeFunction: 'polynomial',
 		  onRegionClick: function(element, code, region)
     {
-
 
            const divFrame= document.createElement("div");
            divFrame.id = "content";
@@ -87,40 +75,119 @@
            divHead.style.float = "center";
            divHead.style.height = "400px";
 
-           const headList = document.createElement("h2");
-           const headListText = document.createTextNode("Республика Карелия");
+
+           var headList = document.createElement("h2");
            headList.id = "profile-info-header";
-           headList.append(headListText);
+
+
+
+
+
+
+
+      //headListText.id = "head-list-text";
+      //headList.append(headListText);
+
+
 
            const subHeadList = document.createElement("h3");
            const subHeadListText = document.createTextNode("Миноритарные языки региона:");
            subHeadList.id = "profile-info-sub-header";
            subHeadList.append(subHeadListText);
-
            const list = document.createElement("ul");
            list.id = "profile-info-list";
+      var langArray = [['Владение языками', 'Количество человек']];
+           /*
            const p1 = document.createElement("li");
-           const lab = document.createElement("label")
            const kar = document.createElement("a");
-
            const createkarText = document.createTextNode("Карельский язык");
-           kar.href = "../dist/karel.html";
+           kar.href = "../dist/karelian.html";
            kar.append(createkarText);
            p1.append(kar);
-           lab.append(p1)
-           list.append(lab);
+           list.append(p1);
+
            const p2 = document.createElement("li");
            const veps = document.createElement("a");
            const createvepsText = document.createTextNode("Вепсский язык");
-           veps.href = "../dist/vepss.html";
+           veps.href = "../dist/veps.html";
            veps.append(createvepsText);
            p2.append(veps);
            list.append(p2);
            list.style.padding = "25px";
+
+            */
+
+
+
+
+      readTextFile('./'+code+'.json', function(text){
+        var data = JSON.parse(text);
+        console.log(data);
+        headList.innerHTML = data.name;
+        langArray = [['Владение языками', 'Количество человек']];
+        const listLength = list.childNodes.length;
+        for (var j = 0; j < listLength; j++) {
+          list.removeChild(list.lastChild);
+        }
+
+        for (var i = 0; i < data.languages.length; i++) {
+          if (!([[data.languages[i].name, data.languages[i]['popularity']]] in langArray)) {
+            langArray.push([data.languages[i].name, data.languages[i]['popularity']]);
+          }
+          if ((data.languages[i].code !== "russian") && (data.languages[i].code !== "others")) {
+            const listElement = document.createElement("li");
+            const href2lang = document.createElement("a");
+            const listElementText = document.createTextNode(data.languages[i].name+" язык");
+
+            href2lang.href = "../dist/"+data.languages[i].code+".html";
+            $.get("../dist/"+data.languages[i].code+".html")
+                    .done(function() {
+                      href2lang.href = "../dist/"+data.languages[i].code+".html";
+                    }).fail(function() {
+              href2lang.href = "../dist/russia.html";
+            })
+
+            href2lang.append(listElementText);
+            listElement.append(href2lang);
+            list.append(listElement);
+          }
+        }
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+          });
+
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var newdata = google.visualization.arrayToDataTable(langArray.filter(function(item, pos, self) {
+          return self.indexOf(item) === pos;
+        }));
+        var options = {
+          title: headList.innerHTML+': владение языками',
+          slices: {  2: {offset: 0.3},
+          },
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(newdata, options);
+      }
+
+      //google.charts.load('current', {'packages':['corechart']});
+      //google.charts.setOnLoadCallback(drawChart);
+
+
+
+
+
+
            const tomap = document.createElement("a");
            const tomapText = document.createTextNode("Подробная карта региона");
            tomap.href = "../dist/karelia.html";
            tomap.class = "tab-profile";
+
 
 
           while (document.body.lastChild === document.getElementById("desc")) {
@@ -138,7 +205,7 @@
            document.body.appendChild(divFrame);
            divFrame.id = "desc";
 
-           google.charts.setOnLoadCallback(drawChart);
+
 
 
            window.scrollTo(0,document.body.scrollHeight);
@@ -147,10 +214,17 @@
       sp1.id = "main-header"
 
 
+
     }
         });
       });
+
+
+
     </script>
+
+
+
   </head>
   <body>
     <div id="vmap" style="float:top; width: 100vw; height: 100vh;">
