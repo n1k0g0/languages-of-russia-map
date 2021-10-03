@@ -120,7 +120,7 @@
 
 
 
-      readTextFile('./'+code+'.json', function(text){
+      readTextFile("./"+code+".json", function(text){
         var data = JSON.parse(text);
         console.log(data);
         headList.innerHTML = data.name;
