@@ -1,0 +1,42 @@
+{
+  "id": 10,
+  "name": "Республика Карелия",
+  "code": "KL",
+  "languages": [
+    {
+      "name": "Русский",
+      "code": "russian",
+      "popularity": 1240177
+    },
+    {
+      "name": "Карельский",
+      "code": "karelian",
+      "popularity": 38107
+    },
+    {
+      "name": "Вепсский",
+      "code": "veps",
+      "popularity": 2357
+    },
+    {
+      "name": "Финский",
+      "code": "finnish",
+      "popularity": 29179
+    },
+    {
+      "name": "Украинский",
+      "code": "ukrainian",
+      "popularity": 14892
+    },
+    {
+      "name": "Белорусский",
+      "code": "belorussian",
+      "popularity": 8054
+    },
+    {
+      "name": "Другие",
+      "code": "others",
+      "popularity": 127721
+    }
+  ]
+}
