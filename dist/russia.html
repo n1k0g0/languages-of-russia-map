@@ -139,12 +139,12 @@
             const href2lang = document.createElement("a");
             const listElementText = document.createTextNode(data.languages[i].name+" язык");
 
-            href2lang.href = "../dist/"+data.languages[i].code+".html";
-            $.get("../dist/"+data.languages[i].code+".html")
+            href2lang.href = './'+data.languages[i].code+'.html';
+            $.get("./"+data.languages[i].code+".html")
                     .done(function() {
-                      href2lang.href = "../dist/"+data.languages[i].code+".html";
+                      href2lang.href = "./"+data.languages[i].code+".html";
                     }).fail(function() {
-              href2lang.href = "../dist/russia.html";
+              href2lang.href = "./russia.html";
             })
 
             href2lang.append(listElementText);
@@ -185,7 +185,7 @@
 
            const tomap = document.createElement("a");
            const tomapText = document.createTextNode("Подробная карта региона");
-           tomap.href = "../dist/karelia.html";
+           tomap.href = "./karelia.html";
            tomap.class = "tab-profile";
 
 
