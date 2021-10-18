@@ -96,136 +96,54 @@
            subHeadList.append(subHeadListText);
            const list = document.createElement("ul");
            list.id = "profile-info-list";
-           var langArray = [['Владение языками', 'Количество человек']];
-           var langNamesArray = [];
-           var resumeFrameIndices = [];
+      var langArray = [['Владение языками', 'Количество человек']];
+           /*
+           const p1 = document.createElement("li");
+           const kar = document.createElement("a");
+           const createkarText = document.createTextNode("Карельский язык");
+           kar.href = "../dist/karelian.html";
+           kar.append(createkarText);
+           p1.append(kar);
+           list.append(p1);
 
-           const regions = {
-             "kl": "karelia",
-             "ch": "chukot",
-             "ko": "komi",
-             "br" : "buryatia",
-             "kk": "kalmyk",
-             "ml": "mari",
-           "in": "ingush",
-           "mr": "mordov",
-           "sa": "sakha",
-           "so": "osset",
-           "ta": "tatar",
-           "tv": "tyva",
-           "hk": "khakas",
-           "cu": "chuvash",
-           "al": "altaikrai",
-           "ka": "kamchatka",
-           "vm": "vladimir",
-           "vo": "vologda",
-           "vn": "voronezh",
-             "km": "kemerovo",
-             "kt": "kostroma",
-             "ky": "kursk",
-             "lp": "lipetsk",
-             "ma":"magadan",
-             "mu": "murmansk",
-             "nv": "novosib",
-             "om": "omsk",
-             "ob": "orenburg",
-             "or": "orel",
-             "sh": "sakhalin",
-             "sm": "smolensk",
-             "tb": "tambov",
-             "tr": "tver",
-             "tm": "tomsk",
-             "cl": "chelyabinsk",
-             "yr": "yaroslavl",
-             "ne": "nenets"
-           }
+           const p2 = document.createElement("li");
+           const veps = document.createElement("a");
+           const createvepsText = document.createTextNode("Вепсский язык");
+           veps.href = "../dist/veps.html";
+           veps.append(createvepsText);
+           p2.append(veps);
+           list.append(p2);
+           list.style.padding = "25px";
 
-      readTextFile("./regions/" + regions[code]+".json", function(text){
+            */
 
+
+
+
+
+      readTextFile("./"+code+".json", function(text){
         var data = JSON.parse(text);
         console.log(data);
-        var keys = Object.keys(data[0]);
-        var regionName = keys[1];
-        headList.innerHTML = regionName;
+        headList.innerHTML = data.name;
         langArray = [['Владение языками', 'Количество человек']];
         const listLength = list.childNodes.length;
-        var langNum = 0;
-        langNamesArray = [];
-        resumeFrameIndices = [];
-
         for (var j = 0; j < listLength; j++) {
           list.removeChild(list.lastChild);
         }
 
-        for (var i = 1; data[i]["Название региона:"] === ""; i++) {
-
-        }
-        i += 1;
-        for (; data[i]["Название региона:"] !== ""; i++) {
-          langNum += 1;
-          langNamesArray.push(data[i]["Название региона:"])
-        }
-
-
-        for (var k = 0; k < data.length; k++) {
-          var kKeys = Object.keys(data[k]);
-          for (lName of langNamesArray) {
-            if ((data[k]["Название региона:"].toLowerCase() === lName.toLowerCase())) {
-              if ((data[k]["__3"] !== "") && (kKeys.length === 10) ) {
-                resumeFrameIndices.push(k);
-              }
-              if ((data[k]["__3"] !== "") && (data[k]["__8"] === "") && (kKeys.length >= 11)) {
-                resumeFrameIndices.push(k);
-              }
-              if ((data[k]["__4"] !== "") && (data[k]["__8"] !== "")&& (kKeys.length >= 11) ) {
-                resumeFrameIndices.push(k);
-              }
-            }
+        for (var i = 0; i < data.languages.length; i++) {
+          if (!([[data.languages[i].name, data.languages[i]['popularity']]] in langArray)) {
+            langArray.push([data.languages[i].name, data.languages[i]['popularity']]);
           }
-
-        }
-
-        //headList.innerHTML = langNamesArray.length.toString();
-
-        for (var p of resumeFrameIndices) {
-          var iKeys = Object.keys(data[p]);
-          var prevKeys = Object.keys(data[p-1]);
-
-          var popularityKey = "";
-
-          for (var pr of prevKeys) {
-            if (data[p-1][pr] === "Общее число носителей в РФ") {
-              popularityKey = pr
-            }
-          }
-
-
-
-          if (!([[data[p][iKeys[0]], data[p][iKeys[5]]]] in langArray)) {
-
-            if (typeof data[p][popularityKey] === 'number') {
-              langArray.push([data[p][iKeys[0]], data[p][popularityKey]]);
-            }
-          }
-
-          if ((data[p][iKeys[0]] !== "русский") && (data[p][iKeys[0]] !== "Other")) {
+          if ((data.languages[i].code !== "russian") && (data.languages[i].code !== "others")) {
             const listElement = document.createElement("li");
             const href2lang = document.createElement("a");
-            //href2lang.id = "myLink"
+            const listElementText = document.createTextNode(data.languages[i].name+" язык");
 
-            const listElementText = document.createTextNode(data[p][iKeys[0]]+" язык: " + data[p][popularityKey]);
-            if (typeof data[p][popularityKey] === 'number') {
-              listElementText.nodeValue += " носителей";
-            }
-
-            var id = '10';
-            var queryString = "?" + regions[code] + "&" + p;
-            //window.location.href = "karelian.html" + queryString;
-            href2lang.href = "karelian.html" + queryString;
-            //href2lang.href = './karelian.html';
-            $.get("./karelian.html")
+            href2lang.href = './'+data.languages[i].code+'.html';
+            $.get("./"+data.languages[i].code+".html")
                     .done(function() {
-                      //href2lang.href = "karelian.html" + queryString;
+                      href2lang.href = "./"+data.languages[i].code+".html";
                     }).fail(function() {
               href2lang.href = "./russia.html";
             })
@@ -234,13 +152,56 @@
             listElement.append(href2lang);
             list.append(listElement);
           }
-          google.charts.load('current', {'packages':['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
+        }
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+          });
+
+      readTextFile("karelia.json", function(text){
+        var data = JSON.parse(text);
+        console.log(data);
+        var keys = Object.keys(data[0])
+        var regionName = keys[1];
+        headList.innerHTML = regionName;
+        langArray = [['Владение языками', 'Количество человек']];
+        const listLength = list.childNodes.length;
+        var langNum = 0;
+        for (var j = 0; j < listLength; j++) {
+          list.removeChild(list.lastChild);
+        }
+
+        for (var i = 4; data[i]["Название региона:"] !== ''; i++) {
+          langNum += 1;
+        }
+
+        for (var i = 4; data[i]["Название региона:"] !== ''; i++) {
+          var iKeys = Object.keys(data[i])
+          if (!([[data[i][iKeys[0]], data[5+langNum + 12 + 16*(i-4)]["__3"]]] in langArray)) {
+            langArray.push([data[i][iKeys[0]], data[5+langNum + 12 + 16*(i-4)]["__3"]]);
+          }
+          if ((data[i][iKeys[0]] !== "русский") && (data[i][iKeys[0]] !== "другие")) {
+            const listElement = document.createElement("li");
+            const href2lang = document.createElement("a");
+            const listElementText = document.createTextNode(data[i][iKeys[0]]+" язык");
+
+            href2lang.href = './karelian.html';
+            $.get("./karelian.html")
+                    .done(function() {
+                      href2lang.href = "./karelian.html";
+                    }).fail(function() {
+              href2lang.href = "./russia.html";
+            })
+
+            href2lang.append(listElementText);
+            listElement.append(href2lang);
+            list.append(listElement);
+          }
         }
 
         // 5 + langNum ; newLang1Line
 
-
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
       });
 
 
@@ -253,7 +214,9 @@
 
       function drawChart() {
 
-        var newdata = google.visualization.arrayToDataTable(langArray);
+        var newdata = google.visualization.arrayToDataTable(langArray.filter(function(item, pos, self) {
+          return self.indexOf(item) === pos;
+        }));
         var options = {
           title: headList.innerHTML+': владение языками',
           slices: {  2: {offset: 0.3},
